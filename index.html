@@ -4,147 +4,109 @@
 <head>
   <meta charset="UTF-8">
   <title>YouTube ポータル</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background: #f8f8f8;
-      margin: 20px;
-    }
-
-    h2 {
-      margin-top: 40px;
-    }
-
-    .video-row {
-      display: flex;
-      overflow-x: auto;
-      gap: 16px;
-      padding: 10px;
-      white-space: nowrap;
-      scroll-behavior: smooth; /* 横スクロールをなめらかに */
-    }
-
-    .video-frame {
-      flex: 0 0 auto;
-      width: 300px;
-      cursor: pointer;
-    }
-
-    .video-frame iframe {
-      width: 100%;
-      height: 170px;
-      border-radius: 8px;
-      pointer-events: none; /* 直接操作させず、クリックを親要素で拾う */
-    }
-
-    .video-frame p {
-      text-align: center;
-      margin-top: 6px;
-    }
-
-    /* モーダル */
-    #videoModal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    #videoModal iframe {
-      width: 80%;
-      max-width: 900px;
-      height: 500px;
-    }
-
-    #videoModal span {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      font-size: 40px;
-      color: white;
-      cursor: pointer;
-    }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
+<body class="bg-gradient-to-br from-gray-900 to-black text-white min-h-screen p-6">
 
-  <h2>応用編</h2>
-  <div class="video-row" id="videoRow">
-    <div class="video-frame" onclick="openModal('xCrc-71xPGw')">
-      <iframe src="https://www.youtube.com/embed/xCrc-71xPGw?controls=0&modestbranding=1"
-        frameborder="0"></iframe>
-      <p>第1回</p>
+  <h2 class="text-2xl font-bold mb-6">🎬 応用編</h2>
+
+  <!-- 横スクロール動画リスト -->
+  <div id="videoRow" class="flex overflow-x-auto gap-6 pb-4 scroll-smooth snap-x snap-mandatory">
+
+    <!-- 第1回 -->
+    <div onclick="openModal('xCrc-71xPGw')"
+      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+      <img src="https://img.youtube.com/vi/xCrc-71xPGw/hqdefault.jpg" class="rounded-t-2xl w-full">
+      <div class="p-3 text-center font-medium">第1回</div>
     </div>
-    <div class="video-frame" onclick="openModal('kEHmynrbJPg')">
-      <iframe src="https://www.youtube.com/embed/kEHmynrbJPg?controls=0&modestbranding=1"
-        frameborder="0"></iframe>
-      <p>第2回</p>
+
+    <!-- 第2回 -->
+    <div onclick="openModal('kEHmynrbJPg')"
+      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+      <img src="https://img.youtube.com/vi/kEHmynrbJPg/hqdefault.jpg" class="rounded-t-2xl w-full">
+      <div class="p-3 text-center font-medium">第2回</div>
     </div>
-    <div class="video-frame" onclick="openModal('IAyKky2MWdE')">
-      <iframe src="https://www.youtube.com/embed/IAyKky2MWdE?controls=0&modestbranding=1"
-        frameborder="0"></iframe>
-      <p>第3回</p>
+
+    <!-- 第3回 -->
+    <div onclick="openModal('IAyKky2MWdE')"
+      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+      <img src="https://img.youtube.com/vi/IAyKky2MWdE/hqdefault.jpg" class="rounded-t-2xl w-full">
+      <div class="p-3 text-center font-medium">第3回</div>
     </div>
-    <div class="video-frame" onclick="openModal('YmeWdB4Bidk')">
-      <iframe src="https://www.youtube.com/embed/YmeWdB4Bidk?controls=0&modestbranding=1"
-        frameborder="0"></iframe>
-      <p>第4回</p>
+
+    <!-- 第4回 -->
+    <div onclick="openModal('YmeWdB4Bidk')"
+      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+      <img src="https://img.youtube.com/vi/YmeWdB4Bidk/hqdefault.jpg" class="rounded-t-2xl w-full">
+      <div class="p-3 text-center font-medium">第4回</div>
     </div>
-    <div class="video-frame" onclick="openModal('CEoc-STONCs')">
-      <iframe src="https://www.youtube.com/embed/CEoc-STONCs?controls=0&modestbranding=1"
-        frameborder="0"></iframe>
-      <p>第5回</p>
+
+    <!-- 第5回 -->
+    <div onclick="openModal('CEoc-STONCs')"
+      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+      <img src="https://img.youtube.com/vi/CEoc-STONCs/hqdefault.jpg" class="rounded-t-2xl w-full">
+      <div class="p-3 text-center font-medium">第5回</div>
     </div>
-    <div class="video-frame" onclick="openModal('rJxEIIvQ8Uo')">
-      <iframe src="https://www.youtube.com/embed/rJxEIIvQ8Uo?controls=0&modestbranding=1"
-        frameborder="0"></iframe>
-      <p>第6回</p>
+
+    <!-- 第6回 -->
+    <div onclick="openModal('rJxEIIvQ8Uo')"
+      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+      <img src="https://img.youtube.com/vi/rJxEIIvQ8Uo/hqdefault.jpg" class="rounded-t-2xl w-full">
+      <div class="p-3 text-center font-medium">第6回</div>
     </div>
-    <div class="video-frame" onclick="openModal('vakApcnwqsw')">
-      <iframe src="https://www.youtube.com/embed/vakApcnwqsw?controls=0&modestbranding=1"
-        frameborder="0"></iframe>
-      <p>第7回</p>
+
+    <!-- 第7回 -->
+    <div onclick="openModal('vakApcnwqsw')"
+      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+      <img src="https://img.youtube.com/vi/vakApcnwqsw/hqdefault.jpg" class="rounded-t-2xl w-full">
+      <div class="p-3 text-center font-medium">第7回</div>
     </div>
-    <div class="video-frame" onclick="openModal('jJF-GDrZ3gg')">
-      <iframe src="https://www.youtube.com/embed/jJF-GDrZ3gg?controls=0&modestbranding=1"
-        frameborder="0"></iframe>
-      <p>第8回</p>
+
+    <!-- 第8回 -->
+    <div onclick="openModal('jJF-GDrZ3gg')"
+      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+      <img src="https://img.youtube.com/vi/jJF-GDrZ3gg/hqdefault.jpg" class="rounded-t-2xl w-full">
+      <div class="p-3 text-center font-medium">第8回</div>
     </div>
-    <div class="video-frame" onclick="openModal('H-rKLDtGJwg')">
-      <iframe src="https://www.youtube.com/embed/H-rKLDtGJwg?controls=0&modestbranding=1"
-        frameborder="0"></iframe>
-      <p>第9回</p>
+
+    <!-- 第9回 -->
+    <div onclick="openModal('H-rKLDtGJwg')"
+      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+      <img src="https://img.youtube.com/vi/H-rKLDtGJwg/hqdefault.jpg" class="rounded-t-2xl w-full">
+      <div class="p-3 text-center font-medium">第9回</div>
     </div>
-    <div class="video-frame" onclick="openModal('AD82Nqjk9ZY')">
-      <iframe src="https://www.youtube.com/embed/AD82Nqjk9ZY?controls=0&modestbranding=1"
-        frameborder="0"></iframe>
-      <p>第10回</p>
+
+    <!-- 第10回 -->
+    <div onclick="openModal('AD82Nqjk9ZY')"
+      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+      <img src="https://img.youtube.com/vi/AD82Nqjk9ZY/hqdefault.jpg" class="rounded-t-2xl w-full">
+      <div class="p-3 text-center font-medium">第10回</div>
     </div>
+
   </div>
 
   <!-- モーダル -->
-  <div id="videoModal">
-    <span onclick="closeModal()">&times;</span>
-    <iframe id="modalVideo" src="" frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-      allowfullscreen></iframe>
+  <div id="videoModal"
+    class="fixed inset-0 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
+    <div class="relative w-full max-w-5xl aspect-video">
+      <button onclick="closeModal()"
+        class="absolute -top-10 right-0 text-white text-3xl hover:text-red-500">&times;</button>
+      <iframe id="modalVideo" class="w-full h-full rounded-xl"
+        src="" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+        allowfullscreen></iframe>
+    </div>
   </div>
 
   <script>
     function openModal(videoId) {
-      document.getElementById("videoModal").style.display = "flex";
+      document.getElementById("videoModal").classList.remove("hidden");
       document.getElementById("modalVideo").src =
         "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
     }
     function closeModal() {
-      document.getElementById("videoModal").style.display = "none";
+      document.getElementById("videoModal").classList.add("hidden");
       document.getElementById("modalVideo").src = "";
     }
 
