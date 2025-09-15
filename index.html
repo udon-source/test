@@ -23,44 +23,20 @@
             white-space: nowrap;
         }
 
-        .thumb {
+        .video-frame {
             flex: 0 0 auto;
             width: 300px;
-            cursor: pointer;
         }
 
-        .thumb img {
+        .video-frame iframe {
             width: 100%;
+            height: 170px;
             border-radius: 8px;
         }
 
-        /* モーダル */
-        #videoModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        #videoModal iframe {
-            width: 80%;
-            max-width: 900px;
-            height: 500px;
-        }
-
-        #videoModal span {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 40px;
-            color: white;
-            cursor: pointer;
+        .video-frame p {
+            text-align: center;
+            margin-top: 6px;
         }
     </style>
 </head>
@@ -69,69 +45,67 @@
 
     <h2>応用編</h2>
     <div class="video-row">
-        <div class="thumb" onclick="openModal('xCrc-71xPGw')">
-            <img src="https://www.youtube.com/watch?v=xCrc-71xPGw&authuser=0" alt="第1回">
-            <p style="text-align:center;">第1回</p>
+        <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/xCrc-71xPGw" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            <p>第1回</p>
         </div>
-        <div class="thumb" onclick="openModal('kEHmynrbJPg')">
-            <img src="https://www.youtube.com/watch?v=kEHmynrbJPg&authuser=0" alt="第2回">
-            <p style="text-align:center;">第2回</p>
+        <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/kEHmynrbJPg" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            <p>第2回</p>
         </div>
-        <div class="thumb" onclick="openModal('kEHmynrbJPg')">
-            <img src="https://www.youtube.com/watch?v=IAyKky2MWdE&authuser=0" alt="第3回">
-            <p style="text-align:center;">第3回</p>
+        <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/IAyKky2MWdE" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            <p>第3回</p>
         </div>
-        <div class="thumb" onclick="openModal('kEHmynrbJPg')">
-            <img src="https://www.youtube.com/watch?v=YmeWdB4Bidk&authuser=0" alt="第4回">
-            <p style="text-align:center;">第4回</p>
+        <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/YmeWdB4Bidk" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            <p>第4回</p>
         </div>
-        <div class="thumb" onclick="openModal('kEHmynrbJPg')">
-            <img src="https://www.youtube.com/watch?v=CEoc-STONCs&authuser=0" alt="第5回">
-            <p style="text-align:center;">第5回</p>
+        <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/CEoc-STONCs" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            <p>第5回</p>
         </div>
-        <div class="thumb" onclick="openModal('kEHmynrbJPg')">
-            <img src="https://www.youtube.com/watch?v=rJxEIIvQ8Uo&authuser=0" alt="第6回">
-            <p style="text-align:center;">第6回</p>
+        <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/rJxEIIvQ8Uo" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            <p>第6回</p>
         </div>
-        <div class="thumb" onclick="openModal('kEHmynrbJPg')">
-            <img src="https://www.youtube.com/watch?v=vakApcnwqsw&authuser=0" alt="第7回">
-            <p style="text-align:center;">第7回</p>
+        <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/vakApcnwqsw" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            <p>第7回</p>
         </div>
-        <div class="thumb" onclick="openModal('kEHmynrbJPg')">
-            <img src="https://www.youtube.com/watch?v=jJF-GDrZ3gg&authuser=0" alt="第8回">
-            <p style="text-align:center;">第8回</p>
+        <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/jJF-GDrZ3gg" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            <p>第8回</p>
         </div>
-                <div class="thumb" onclick="openModal('kEHmynrbJPg')">
-            <img src="https://www.youtube.com/watch?v=H-rKLDtGJwg&authuser=0" alt="第9回">
-            <p style="text-align:center;">第9回</p>
+        <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/H-rKLDtGJwg" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            <p>第9回</p>
         </div>
-                <div class="thumb" onclick="openModal('kEHmynrbJPg')">
-            <img src="https://www.youtube.com/watch?v=AD82Nqjk9ZY&authuser=0" alt="第10回">
-            <p style="text-align:center;">第10回</p>
+        <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/AD82Nqjk9ZY" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            <p>第10回</p>
         </div>
-
     </div>
-
-    <!-- モーダル -->
-    <div id="videoModal">
-        <span onclick="closeModal()">&times;</span>
-        <iframe id="modalVideo" src="" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-            allowfullscreen>
-        </iframe>
-    </div>
-
-    <script>
-        function openModal(videoId) {
-            document.getElementById("videoModal").style.display = "flex";
-            document.getElementById("modalVideo").src =
-                "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
-        }
-        function closeModal() {
-            document.getElementById("videoModal").style.display = "none";
-            document.getElementById("modalVideo").src = "";
-        }
-    </script>
 
 </body>
 
