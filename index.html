@@ -2,110 +2,159 @@
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
-    <title>YouTube ポータル</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            background: #f8f8f8;
-            margin: 20px;
-        }
+  <meta charset="UTF-8">
+  <title>YouTube ポータル</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f8f8f8;
+      margin: 20px;
+    }
 
-        h2 {
-            margin-top: 40px;
-        }
+    h2 {
+      margin-top: 40px;
+    }
 
-        .video-row {
-            display: flex;
-            overflow-x: auto;
-            gap: 16px;
-            padding: 10px;
-            white-space: nowrap;
-        }
+    .video-row {
+      display: flex;
+      overflow-x: auto;
+      gap: 16px;
+      padding: 10px;
+      white-space: nowrap;
+      scroll-behavior: smooth; /* 横スクロールをなめらかに */
+    }
 
-        .video-frame {
-            flex: 0 0 auto;
-            width: 300px;
-        }
+    .video-frame {
+      flex: 0 0 auto;
+      width: 300px;
+      cursor: pointer;
+    }
 
-        .video-frame iframe {
-            width: 100%;
-            height: 170px;
-            border-radius: 8px;
-        }
+    .video-frame iframe {
+      width: 100%;
+      height: 170px;
+      border-radius: 8px;
+      pointer-events: none; /* 直接操作させず、クリックを親要素で拾う */
+    }
 
-        .video-frame p {
-            text-align: center;
-            margin-top: 6px;
-        }
-    </style>
+    .video-frame p {
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    /* モーダル */
+    #videoModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #videoModal iframe {
+      width: 80%;
+      max-width: 900px;
+      height: 500px;
+    }
+
+    #videoModal span {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
 
-    <h2>応用編</h2>
-    <div class="video-row">
-        <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/xCrc-71xPGw" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-            <p>第1回</p>
-        </div>
-        <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/kEHmynrbJPg" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-            <p>第2回</p>
-        </div>
-        <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/IAyKky2MWdE" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-            <p>第3回</p>
-        </div>
-        <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/YmeWdB4Bidk" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-            <p>第4回</p>
-        </div>
-        <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/CEoc-STONCs" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-            <p>第5回</p>
-        </div>
-        <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/rJxEIIvQ8Uo" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-            <p>第6回</p>
-        </div>
-        <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/vakApcnwqsw" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-            <p>第7回</p>
-        </div>
-        <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/jJF-GDrZ3gg" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-            <p>第8回</p>
-        </div>
-        <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/H-rKLDtGJwg" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-            <p>第9回</p>
-        </div>
-        <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/AD82Nqjk9ZY" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-            <p>第10回</p>
-        </div>
+  <h2>応用編</h2>
+  <div class="video-row" id="videoRow">
+    <div class="video-frame" onclick="openModal('xCrc-71xPGw')">
+      <iframe src="https://www.youtube.com/embed/xCrc-71xPGw?controls=0&modestbranding=1"
+        frameborder="0"></iframe>
+      <p>第1回</p>
     </div>
+    <div class="video-frame" onclick="openModal('kEHmynrbJPg')">
+      <iframe src="https://www.youtube.com/embed/kEHmynrbJPg?controls=0&modestbranding=1"
+        frameborder="0"></iframe>
+      <p>第2回</p>
+    </div>
+    <div class="video-frame" onclick="openModal('IAyKky2MWdE')">
+      <iframe src="https://www.youtube.com/embed/IAyKky2MWdE?controls=0&modestbranding=1"
+        frameborder="0"></iframe>
+      <p>第3回</p>
+    </div>
+    <div class="video-frame" onclick="openModal('YmeWdB4Bidk')">
+      <iframe src="https://www.youtube.com/embed/YmeWdB4Bidk?controls=0&modestbranding=1"
+        frameborder="0"></iframe>
+      <p>第4回</p>
+    </div>
+    <div class="video-frame" onclick="openModal('CEoc-STONCs')">
+      <iframe src="https://www.youtube.com/embed/CEoc-STONCs?controls=0&modestbranding=1"
+        frameborder="0"></iframe>
+      <p>第5回</p>
+    </div>
+    <div class="video-frame" onclick="openModal('rJxEIIvQ8Uo')">
+      <iframe src="https://www.youtube.com/embed/rJxEIIvQ8Uo?controls=0&modestbranding=1"
+        frameborder="0"></iframe>
+      <p>第6回</p>
+    </div>
+    <div class="video-frame" onclick="openModal('vakApcnwqsw')">
+      <iframe src="https://www.youtube.com/embed/vakApcnwqsw?controls=0&modestbranding=1"
+        frameborder="0"></iframe>
+      <p>第7回</p>
+    </div>
+    <div class="video-frame" onclick="openModal('jJF-GDrZ3gg')">
+      <iframe src="https://www.youtube.com/embed/jJF-GDrZ3gg?controls=0&modestbranding=1"
+        frameborder="0"></iframe>
+      <p>第8回</p>
+    </div>
+    <div class="video-frame" onclick="openModal('H-rKLDtGJwg')">
+      <iframe src="https://www.youtube.com/embed/H-rKLDtGJwg?controls=0&modestbranding=1"
+        frameborder="0"></iframe>
+      <p>第9回</p>
+    </div>
+    <div class="video-frame" onclick="openModal('AD82Nqjk9ZY')">
+      <iframe src="https://www.youtube.com/embed/AD82Nqjk9ZY?controls=0&modestbranding=1"
+        frameborder="0"></iframe>
+      <p>第10回</p>
+    </div>
+  </div>
+
+  <!-- モーダル -->
+  <div id="videoModal">
+    <span onclick="closeModal()">&times;</span>
+    <iframe id="modalVideo" src="" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+      allowfullscreen></iframe>
+  </div>
+
+  <script>
+    function openModal(videoId) {
+      document.getElementById("videoModal").style.display = "flex";
+      document.getElementById("modalVideo").src =
+        "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
+    }
+    function closeModal() {
+      document.getElementById("videoModal").style.display = "none";
+      document.getElementById("modalVideo").src = "";
+    }
+
+    // マウスホイールで横スクロール
+    const row = document.getElementById('videoRow');
+    row.addEventListener('wheel', (evt) => {
+      evt.preventDefault();
+      row.scrollLeft += evt.deltaY;
+    });
+  </script>
 
 </body>
 
