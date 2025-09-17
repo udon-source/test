@@ -25,7 +25,8 @@
             gap: 20px;
             scrollbar-width: none;
             scroll-behavior: smooth;
-            padding: 0 10%; /* 両端に余白を入れる */
+            scroll-padding: 0 30%;
+            /* 中央寄せの余白 */
 
         }
 
@@ -34,7 +35,7 @@
         }
 
         .slide {
-            flex: 0 0 80%;
+            flex: 0 0 40%;
             scroll-snap-align: center;
             border-radius: 12px;
             overflow: hidden;
@@ -42,7 +43,7 @@
         }
 
         .slide img {
-            width: 40%;
+            width: 100%;
             height: auto;
             display: block;
         }
