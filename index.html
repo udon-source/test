@@ -1,123 +1,149 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-  <meta charset="UTF-8">
-  <title>YouTube ポータル</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>シンプル スライドショー（HTML/CSS/JS）</title>
+  <style>
+    :root{
+      --w: 900px; /* 好きな最大幅に変更 */
+      --h: 500px; /* 高さ */
+      --accent: #2b6cb0;
+      --dot-size: 12px;
+      --transition: 600ms cubic-bezier(.22,.9,.35,1);
+    }
+
+    *{box-sizing:border-box}
+    body{font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif; display:flex;align-items:center;justify-content:center;min-height:100vh;margin:24px;background:#f4f6fb}
+
+    .slider{
+      width:100%;max-width:var(--w);background:#fff;border-radius:12px;box-shadow:0 8px 30px rgba(20,30,50,.12);overflow:hidden;position:relative;
+    }
+
+    .viewport{width:100%;height:var(--h);position:relative;overflow:hidden}
+    .track{display:flex;height:100%;transition:transform var(--transition);will-change:transform}
+
+    .slide{min-width:100%;height:100%;position:relative;display:flex;align-items:flex-end;justify-content:center}
+    .slide img{width:100%;height:100%;object-fit:cover;display:block}
+
+    .caption{
+      position:absolute;left:16px;right:16px;bottom:18px;padding:12px 16px;border-radius:8px;background:linear-gradient(180deg,rgba(0,0,0,0) 0%, rgba(0,0,0,0.45) 100%);color:#fff;font-weight:600;backdrop-filter:blur(2px);
+    }
+
+    /* Prev/Next ボタン */
+    .nav-btn{
+      position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,.9);border:1px solid rgba(20,30,50,.06);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:6;box-shadow:0 6px 18px rgba(20,30,50,.08)
+    }
+    .nav-btn:hover{transform:translateY(-50%) scale(1.03)}
+    .prev{left:12px}
+    .next{right:12px}
+    .nav-btn svg{width:18px;height:18px;fill:var(--accent)}
+
+    /* ドット */
+    .dots{position:absolute;left:50%;transform:translateX(-50%);bottom:12px;display:flex;gap:8px;z-index:7}
+    .dot{width:var(--dot-size);height:var(--dot-size);border-radius:50%;background:rgba(255,255,255,.9);border:2px solid rgba(20,30,50,.08);cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+    .dot.active{background:var(--accent);border-color:rgba(0,0,0,.06)}
+
+    /* レスポンシブ */
+    @media (max-width:720px){:root{--h:280px} .nav-btn{width:36px;height:36px}} 
+  </style>
 </head>
-
-<body class="bg-gradient-to-br from-gray-900 to-black text-white min-h-screen p-6">
-
-  <h2 class="text-2xl font-bold mb-6">🎬 応用編</h2>
-
-  <!-- 横スクロール動画リスト -->
-  <div id="videoRow" class="flex overflow-x-auto gap-6 pb-4 scroll-smooth snap-x snap-mandatory">
-
-    <!-- 第1回 -->
-    <div onclick="openModal('xCrc-71xPGw')"
-      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-      <img src="https://img.youtube.com/vi/xCrc-71xPGw/hqdefault.jpg" class="rounded-t-2xl w-full">
-      <div class="p-3 text-center font-medium">第1回</div>
+<body>
+  <div class="slider" id="slider1" aria-roledescription="carousel">
+    <div class="viewport" tabindex="0">
+      <div class="track">
+        <figure class="slide" data-caption="美しい山の風景">
+          <img src="https://picsum.photos/id/1018/1600/900" alt="山の風景">
+          <figcaption class="caption">美しい山の風景</figcaption>
+        </figure>
+        <figure class="slide" data-caption="海辺の夕焼け">
+          <img src="https://picsum.photos/id/1015/1600/900" alt="海辺の夕焼け">
+          <figcaption class="caption">海辺の夕焼け</figcaption>
+        </figure>
+        <figure class="slide" data-caption="街の夜景">
+          <img src="https://picsum.photos/id/1011/1600/900" alt="街の夜景">
+          <figcaption class="caption">街の夜景</figcaption>
+        </figure>
+      </div>
     </div>
 
-    <!-- 第2回 -->
-    <div onclick="openModal('kEHmynrbJPg')"
-      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-      <img src="https://img.youtube.com/vi/kEHmynrbJPg/hqdefault.jpg" class="rounded-t-2xl w-full">
-      <div class="p-3 text-center font-medium">第2回</div>
-    </div>
+    <button class="nav-btn prev" aria-label="前へ">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+    </button>
+    <button class="nav-btn next" aria-label="次へ">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8.59 16.59 6-6-6-6L10 4.41 16.59 11 10 17.59z"/></svg>
+    </button>
 
-    <!-- 第3回 -->
-    <div onclick="openModal('IAyKky2MWdE')"
-      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-      <img src="https://img.youtube.com/vi/IAyKky2MWdE/hqdefault.jpg" class="rounded-t-2xl w-full">
-      <div class="p-3 text-center font-medium">第3回</div>
-    </div>
-
-    <!-- 第4回 -->
-    <div onclick="openModal('YmeWdB4Bidk')"
-      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-      <img src="https://img.youtube.com/vi/YmeWdB4Bidk/hqdefault.jpg" class="rounded-t-2xl w-full">
-      <div class="p-3 text-center font-medium">第4回</div>
-    </div>
-
-    <!-- 第5回 -->
-    <div onclick="openModal('CEoc-STONCs')"
-      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-      <img src="https://img.youtube.com/vi/CEoc-STONCs/hqdefault.jpg" class="rounded-t-2xl w-full">
-      <div class="p-3 text-center font-medium">第5回</div>
-    </div>
-
-    <!-- 第6回 -->
-    <div onclick="openModal('rJxEIIvQ8Uo')"
-      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-      <img src="https://img.youtube.com/vi/rJxEIIvQ8Uo/hqdefault.jpg" class="rounded-t-2xl w-full">
-      <div class="p-3 text-center font-medium">第6回</div>
-    </div>
-
-    <!-- 第7回 -->
-    <div onclick="openModal('vakApcnwqsw')"
-      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-      <img src="https://img.youtube.com/vi/vakApcnwqsw/hqdefault.jpg" class="rounded-t-2xl w-full">
-      <div class="p-3 text-center font-medium">第7回</div>
-    </div>
-
-    <!-- 第8回 -->
-    <div onclick="openModal('jJF-GDrZ3gg')"
-      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-      <img src="https://img.youtube.com/vi/jJF-GDrZ3gg/hqdefault.jpg" class="rounded-t-2xl w-full">
-      <div class="p-3 text-center font-medium">第8回</div>
-    </div>
-
-    <!-- 第9回 -->
-    <div onclick="openModal('H-rKLDtGJwg')"
-      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-      <img src="https://img.youtube.com/vi/H-rKLDtGJwg/hqdefault.jpg" class="rounded-t-2xl w-full">
-      <div class="p-3 text-center font-medium">第9回</div>
-    </div>
-
-    <!-- 第10回 -->
-    <div onclick="openModal('AD82Nqjk9ZY')"
-      class="w-72 flex-shrink-0 snap-start cursor-pointer bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-      <img src="https://img.youtube.com/vi/AD82Nqjk9ZY/hqdefault.jpg" class="rounded-t-2xl w-full">
-      <div class="p-3 text-center font-medium">第10回</div>
-    </div>
-
-  </div>
-
-  <!-- モーダル -->
-  <div id="videoModal"
-    class="fixed inset-0 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
-    <div class="relative w-full max-w-5xl aspect-video">
-      <button onclick="closeModal()"
-        class="absolute -top-10 right-0 text-white text-3xl hover:text-red-500">&times;</button>
-      <iframe id="modalVideo" class="w-full h-full rounded-xl"
-        src="" frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-        allowfullscreen></iframe>
-    </div>
+    <div class="dots" role="tablist" aria-label="スライド選択"></div>
   </div>
 
   <script>
-    function openModal(videoId) {
-      document.getElementById("videoModal").classList.remove("hidden");
-      document.getElementById("modalVideo").src =
-        "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
-    }
-    function closeModal() {
-      document.getElementById("videoModal").classList.add("hidden");
-      document.getElementById("modalVideo").src = "";
-    }
+    (function(){
+      const slider = document.getElementById('slider1');
+      const viewport = slider.querySelector('.viewport');
+      const track = slider.querySelector('.track');
+      const slides = Array.from(slider.querySelectorAll('.slide'));
+      const prevBtn = slider.querySelector('.prev');
+      const nextBtn = slider.querySelector('.next');
+      const dotsWrap = slider.querySelector('.dots');
+      let index = 0;
+      let timer = null;
+      const interval = 4000; // 自動再生間隔（ms）
 
-    // マウスホイールで横スクロール
-    const row = document.getElementById('videoRow');
-    row.addEventListener('wheel', (evt) => {
-      evt.preventDefault();
-      row.scrollLeft += evt.deltaY;
-    });
+      // ドットを作る
+      slides.forEach((s,i)=>{
+        const btn = document.createElement('button');
+        btn.className='dot';
+        btn.setAttribute('aria-label', `${i+1}番目のスライド`);
+        btn.addEventListener('click', ()=>goTo(i));
+        dotsWrap.appendChild(btn);
+      });
+
+      const dots = Array.from(dotsWrap.children);
+
+      function update(){
+        const offset = -index * 100;
+        track.style.transform = `translateX(${offset}%)`;
+        dots.forEach(d=>d.classList.remove('active'));
+        dots[index].classList.add('active');
+      }
+
+      function prev(){ index = (index - 1 + slides.length) % slides.length; update(); }
+      function next(){ index = (index + 1) % slides.length; update(); }
+      function goTo(i){ index = i % slides.length; update(); }
+
+      // 自動再生
+      function startAuto(){ stopAuto(); timer = setInterval(next, interval); }
+      function stopAuto(){ if(timer) {clearInterval(timer); timer = null;} }
+
+      // ボタンイベント
+      prevBtn.addEventListener('click', ()=>{ prev(); startAuto(); });
+      nextBtn.addEventListener('click', ()=>{ next(); startAuto(); });
+
+      // マウスが乗ったら停止、離れたら再開
+      slider.addEventListener('mouseenter', stopAuto);
+      slider.addEventListener('mouseleave', startAuto);
+
+      // キーボード操作（左右）
+      viewport.addEventListener('keydown', (e)=>{
+        if(e.key === 'ArrowLeft') { prev(); startAuto(); }
+        if(e.key === 'ArrowRight') { next(); startAuto(); }
+      });
+
+      // 初期化
+      update(); startAuto();
+
+      // 画像が増減する可能性がある場合に対応するための簡易リサイズ操作
+      window.addEventListener('resize', ()=>{ track.style.transition = 'none'; requestAnimationFrame(()=>track.style.transition='transform var(--transition)'); });
+
+      // アクセシビリティ（現在のスライドを通知）
+      function announceCurrent(){
+        const caption = slides[index].getAttribute('data-caption') || '';
+        slider.setAttribute('aria-label', `スライド ${index+1}：${caption}`);
+      }
+      setInterval(announceCurrent, 500);
+
+    })();
   </script>
-
 </body>
-
 </html>
