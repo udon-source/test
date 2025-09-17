@@ -25,9 +25,7 @@
             gap: 20px;
             scrollbar-width: none;
             scroll-behavior: smooth;
-            scroll-padding: 0 30%;
-            /* 中央寄せの余白 */
-
+            padding: 0 10%; /* ← 残したままOK */
         }
 
         .sliderArea::-webkit-scrollbar {
@@ -53,8 +51,6 @@
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
             z-index: 2;
         }
-
-
 
         /* --- コントロールエリア --- */
         .controls {
@@ -169,8 +165,13 @@
             dots[currentIndex].classList.add('active');
         }
 
+        // 中央に強制スクロールする処理
         function goToSlide(idx) {
-            slides[idx].scrollIntoView({ behavior: "smooth", inline: "center" });
+            const slide = slides[idx];
+            const rect = slide.getBoundingClientRect();
+            const sliderRect = slider.getBoundingClientRect();
+            const offset = rect.left - sliderRect.left - (sliderRect.width - rect.width) / 2;
+            slider.scrollBy({ left: offset, behavior: "smooth" });
             currentIndex = idx;
             updateActive();
         }
@@ -202,7 +203,6 @@
             clearTimeout(userInteracted);
             userInteracted = setTimeout(startAutoPlay, 5000);
         }
-
 
         // 初期表示を真ん中から
         const middleIndex = Math.floor(slides.length / 2);
