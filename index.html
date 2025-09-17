@@ -3,48 +3,46 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>全スライド表示 + アクティブ強調</title>
+  <title>スクロールでセンタースライダー</title>
   <style>
     body {
       margin: 0;
       padding: 40px;
       background: #f4f6fb;
       font-family: sans-serif;
-      display: flex;
-      justify-content: center;
     }
 
     .carousel {
-      width: 90%;
+      width: 100%;
       max-width: 1000px;
-      overflow: visible;
-      position: relative;
-    }
-
-    .track {
+      margin: 0 auto;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
       display: flex;
-      justify-content: center;
       gap: 20px;
-      transition: transform 0.5s ease;
+      padding-bottom: 20px;
+      scrollbar-width: none; /* Firefox */
+    }
+    .carousel::-webkit-scrollbar {
+      display: none; /* Chrome/Safari */
     }
 
     .slide {
       flex: 0 0 200px;
       height: 140px;
       border-radius: 12px;
-      overflow: hidden;
       background: #ccc;
-      transition: transform 0.5s ease, box-shadow 0.5s ease;
-      cursor: pointer;
+      scroll-snap-align: center;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
     }
     .slide img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      border-radius: 12px;
       display: block;
     }
 
-    /* アクティブスライドの強調 */
     .slide.active {
       transform: scale(1.2);
       box-shadow: 0 8px 24px rgba(0,0,0,0.25);
@@ -72,48 +70,58 @@
 <body>
 
   <div class="carousel" id="carousel">
-    <div class="track">
-      <div class="slide"><img src="https://picsum.photos/id/1018/400/300" alt=""></div>
-      <div class="slide"><img src="https://picsum.photos/id/1015/400/300" alt=""></div>
-      <div class="slide"><img src="https://picsum.photos/id/1011/400/300" alt=""></div>
-      <div class="slide"><img src="https://picsum.photos/id/1016/400/300" alt=""></div>
-      <div class="slide"><img src="https://picsum.photos/id/1019/400/300" alt=""></div>
-    </div>
-    <div class="dots" id="dots"></div>
+    <div class="slide"><img src="https://picsum.photos/id/1018/400/300" alt=""></div>
+    <div class="slide"><img src="https://picsum.photos/id/1015/400/300" alt=""></div>
+    <div class="slide"><img src="https://picsum.photos/id/1011/400/300" alt=""></div>
+    <div class="slide"><img src="https://picsum.photos/id/1016/400/300" alt=""></div>
+    <div class="slide"><img src="https://picsum.photos/id/1019/400/300" alt=""></div>
   </div>
 
+  <div class="dots" id="dots"></div>
+
   <script>
-    (function(){
-      const carousel = document.getElementById('carousel');
-      const track = carousel.querySelector('.track');
-      const slides = Array.from(track.children);
-      const dotsContainer = document.getElementById('dots');
-      let currentIndex = 0;
+    const carousel = document.getElementById('carousel');
+    const slides = Array.from(carousel.children);
+    const dotsContainer = document.getElementById('dots');
 
-      // ドット生成
-      slides.forEach((_, idx) => {
-        const dot = document.createElement('span');
-        dot.classList.add('dot');
-        dot.addEventListener('click', () => goToSlide(idx));
-        dotsContainer.appendChild(dot);
+    // ドット生成
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('span');
+      dot.classList.add('dot');
+      dot.addEventListener('click', () => {
+        slides[idx].scrollIntoView({behavior: "smooth", inline: "center"});
       });
-      const dots = Array.from(dotsContainer.children);
+      dotsContainer.appendChild(dot);
+    });
+    const dots = Array.from(dotsContainer.children);
 
-      function update() {
-        slides.forEach(s => s.classList.remove('active'));
-        dots.forEach(d => d.classList.remove('active'));
-        slides[currentIndex].classList.add('active');
-        dots[currentIndex].classList.add('active');
-      }
+    function updateActive() {
+      const center = carousel.scrollLeft + carousel.offsetWidth / 2;
+      let closestIdx = 0;
+      let closestDist = Infinity;
 
-      function goToSlide(idx) {
-        currentIndex = idx;
-        update();
-      }
+      slides.forEach((slide, idx) => {
+        const rect = slide.getBoundingClientRect();
+        const slideCenter = rect.left + rect.width / 2;
+        const dist = Math.abs((window.innerWidth / 2) - slideCenter);
+        if (dist < closestDist) {
+          closestDist = dist;
+          closestIdx = idx;
+        }
+      });
 
-      // 初期表示
-      update();
-    })();
+      slides.forEach(s => s.classList.remove('active'));
+      dots.forEach(d => d.classList.remove('active'));
+      slides[closestIdx].classList.add('active');
+      dots[closestIdx].classList.add('active');
+    }
+
+    carousel.addEventListener('scroll', () => {
+      window.requestAnimationFrame(updateActive);
+    });
+
+    // 初期状態
+    updateActive();
   </script>
 </body>
 </html>
