@@ -12,21 +12,24 @@
       font-family: sans-serif;
     }
 
-    .sliderArea {
+    .carousel {
+      position: relative;
       max-width: 900px;
       margin: 0 auto;
+    }
+
+    .sliderArea {
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       display: flex;
       gap: 20px;
-      scrollbar-width: none; /* Firefox */
+      scrollbar-width: none;
+      scroll-behavior: smooth;
     }
-    .sliderArea::-webkit-scrollbar {
-      display: none; /* Chrome / Safari */
-    }
+    .sliderArea::-webkit-scrollbar { display: none; }
 
     .slide {
-      flex: 0 0 70%; /* センターモードっぽく大きめ */
+      flex: 0 0 70%;
       scroll-snap-align: center;
       border-radius: 12px;
       overflow: hidden;
@@ -37,13 +40,13 @@
       height: auto;
       display: block;
     }
-
     .slide.active {
       transform: scale(1.05);
       box-shadow: 0 8px 24px rgba(0,0,0,0.25);
       z-index: 2;
     }
 
+    /* ドット */
     .dots {
       margin-top: 20px;
       text-align: center;
@@ -57,40 +60,67 @@
       background: #ccc;
       cursor: pointer;
     }
-    .dot.active {
-      background: #2b6cb0;
+    .dot.active { background: #2b6cb0; }
+
+    /* 矢印 */
+    .nav-btn {
+      position: absolute;
+      top: 45%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.9);
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 36px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
+    .nav-btn:hover { background: #fff; }
+    .prev { left: -20px; }
+    .next { right: -20px; }
   </style>
 </head>
 <body>
 
-  <div class="sliderArea" id="slider">
-    <div class="slide"><img src="https://125naroom.com/demo/img/itukanokotonokoto01.jpg" alt=""></div>
-    <div class="slide"><img src="https://125naroom.com/demo/img/itukanokotonokoto02.jpg" alt=""></div>
-    <div class="slide"><img src="https://125naroom.com/demo/img/itukanokotonokoto03.jpg" alt=""></div>
-    <div class="slide"><img src="https://125naroom.com/demo/img/itukanokotonokoto04.jpg" alt=""></div>
-    <div class="slide"><img src="https://125naroom.com/demo/img/itukanokotonokoto05.jpg" alt=""></div>
+  <div class="carousel">
+    <button class="nav-btn prev">⟨</button>
+    <div class="sliderArea" id="slider">
+      <div class="slide"><img src="https://125naroom.com/demo/img/itukanokotonokoto01.jpg" alt=""></div>
+      <div class="slide"><img src="https://125naroom.com/demo/img/itukanokotonokoto02.jpg" alt=""></div>
+      <div class="slide"><img src="https://125naroom.com/demo/img/itukanokotonokoto03.jpg" alt=""></div>
+      <div class="slide"><img src="https://125naroom.com/demo/img/itukanokotonokoto04.jpg" alt=""></div>
+      <div class="slide"><img src="https://125naroom.com/demo/img/itukanokotonokoto05.jpg" alt=""></div>
+    </div>
+    <button class="nav-btn next">⟩</button>
+    <div class="dots" id="dots"></div>
   </div>
-
-  <div class="dots" id="dots"></div>
 
   <script>
     const slider = document.getElementById('slider');
     const slides = Array.from(slider.children);
     const dotsContainer = document.getElementById('dots');
+    const prevBtn = document.querySelector('.prev');
+    const nextBtn = document.querySelector('.next');
+    let currentIndex = 0;
+    let autoPlayTimer;
+    let userInteracted = false;
 
     // ドット生成
     slides.forEach((_, idx) => {
       const dot = document.createElement('span');
       dot.classList.add('dot');
       dot.addEventListener('click', () => {
-        slides[idx].scrollIntoView({behavior: "smooth", inline: "center"});
+        stopAutoPlay();
+        goToSlide(idx);
       });
       dotsContainer.appendChild(dot);
     });
     const dots = Array.from(dotsContainer.children);
 
-    // 中央のスライドを検出して active 付与
     function updateActive() {
       let closestIdx = 0;
       let closestDist = Infinity;
@@ -106,18 +136,51 @@
         }
       });
 
+      currentIndex = closestIdx;
       slides.forEach(s => s.classList.remove('active'));
       dots.forEach(d => d.classList.remove('active'));
-      slides[closestIdx].classList.add('active');
-      dots[closestIdx].classList.add('active');
+      slides[currentIndex].classList.add('active');
+      dots[currentIndex].classList.add('active');
     }
+
+    function goToSlide(idx) {
+      slides[idx].scrollIntoView({behavior: "smooth", inline: "center"});
+      currentIndex = idx;
+      updateActive();
+    }
+
+    function nextSlide() {
+      let next = (currentIndex + 1) % slides.length;
+      goToSlide(next);
+    }
+    function prevSlide() {
+      let prev = (currentIndex - 1 + slides.length) % slides.length;
+      goToSlide(prev);
+    }
+
+    prevBtn.addEventListener('click', () => { stopAutoPlay(); prevSlide(); });
+    nextBtn.addEventListener('click', () => { stopAutoPlay(); nextSlide(); });
 
     slider.addEventListener('scroll', () => {
       window.requestAnimationFrame(updateActive);
+      stopAutoPlay();
     });
 
-    // 初期状態
+    // 自動再生管理
+    function startAutoPlay() {
+      stopAutoPlay();
+      autoPlayTimer = setInterval(nextSlide, 3000);
+    }
+    function stopAutoPlay() {
+      clearInterval(autoPlayTimer);
+      // 一定時間後に再開
+      clearTimeout(userInteracted);
+      userInteracted = setTimeout(startAutoPlay, 5000);
+    }
+
+    // 初期表示
     updateActive();
+    startAutoPlay();
   </script>
 
 </body>
