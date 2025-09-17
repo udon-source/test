@@ -1,25 +1,124 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-    <link rel="stylesheet" type="text/css"
-        href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>講座スライダー</title>
-    <div class="sliderArea">
-        <div class="full-screen-o slider">
-            <div><img src="https://125naroom.com/demo/img/itukanokotonokoto01.jpg" alt="125naroom"></div>
-            <div><img src="https://125naroom.com/demo/img/itukanokotonokoto02.jpg" alt="125naroom"></div>
-            <div><img src="https://125naroom.com/demo/img/itukanokotonokoto03.jpg" alt="125naroom"></div>
-            <div><img src="https://125naroom.com/demo/img/itukanokotonokoto04.jpg" alt="125naroom"></div>
-            <div><img src="https://125naroom.com/demo/img/itukanokotonokoto05.jpg" alt="125naroom"></div>
-        </div>
-    </div>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vanilla JS センターカルーセル</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 40px;
+      background: #f4f6fb;
+      font-family: sans-serif;
+    }
 
-    </body>
+    .sliderArea {
+      max-width: 900px;
+      margin: 0 auto;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      display: flex;
+      gap: 20px;
+      scrollbar-width: none; /* Firefox */
+    }
+    .sliderArea::-webkit-scrollbar {
+      display: none; /* Chrome / Safari */
+    }
 
+    .slide {
+      flex: 0 0 70%; /* センターモードっぽく大きめ */
+      scroll-snap-align: center;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .slide.active {
+      transform: scale(1.05);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      z-index: 2;
+    }
+
+    .dots {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .dot {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin: 0 6px;
+      border-radius: 50%;
+      background: #ccc;
+      cursor: pointer;
+    }
+    .dot.active {
+      background: #2b6cb0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sliderArea" id="slider">
+    <div class="slide"><img src="https://125naroom.com/demo/img/itukanokotonokoto01.jpg" alt=""></div>
+    <div class="slide"><img src="https://125naroom.com/demo/img/itukanokotonokoto02.jpg" alt=""></div>
+    <div class="slide"><img src="https://125naroom.com/demo/img/itukanokotonokoto03.jpg" alt=""></div>
+    <div class="slide"><img src="https://125naroom.com/demo/img/itukanokotonokoto04.jpg" alt=""></div>
+    <div class="slide"><img src="https://125naroom.com/demo/img/itukanokotonokoto05.jpg" alt=""></div>
+  </div>
+
+  <div class="dots" id="dots"></div>
+
+  <script>
+    const slider = document.getElementById('slider');
+    const slides = Array.from(slider.children);
+    const dotsContainer = document.getElementById('dots');
+
+    // ドット生成
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('span');
+      dot.classList.add('dot');
+      dot.addEventListener('click', () => {
+        slides[idx].scrollIntoView({behavior: "smooth", inline: "center"});
+      });
+      dotsContainer.appendChild(dot);
+    });
+    const dots = Array.from(dotsContainer.children);
+
+    // 中央のスライドを検出して active 付与
+    function updateActive() {
+      let closestIdx = 0;
+      let closestDist = Infinity;
+      const center = window.innerWidth / 2;
+
+      slides.forEach((slide, idx) => {
+        const rect = slide.getBoundingClientRect();
+        const slideCenter = rect.left + rect.width / 2;
+        const dist = Math.abs(center - slideCenter);
+        if (dist < closestDist) {
+          closestDist = dist;
+          closestIdx = idx;
+        }
+      });
+
+      slides.forEach(s => s.classList.remove('active'));
+      dots.forEach(d => d.classList.remove('active'));
+      slides[closestIdx].classList.add('active');
+      dots[closestIdx].classList.add('active');
+    }
+
+    slider.addEventListener('scroll', () => {
+      window.requestAnimationFrame(updateActive);
+    });
+
+    // 初期状態
+    updateActive();
+  </script>
+
+</body>
 </html>
